@@ -58,7 +58,6 @@ tile.appliedenergistics2.BlockCraftingAccelerator64x.name=64核并行处理单�
 tile.appliedenergistics2.BlockCraftingAccelerator256x.name=256核并行处理单元
 tile.appliedenergistics2.BlockCraftingAccelerator1024x.name=1024核并行处理单元
 tile.appliedenergistics2.BlockCraftingAccelerator4096x.name=4096核并行处理单元
-
 tile.appliedenergistics2.BlockCraftingUnit.name=合成单元
 tile.appliedenergistics2.BlockMolecularAssembler.name=分子装配室
 
@@ -105,6 +104,7 @@ chat.appliedenergistics2.TunnelOutputsAreAt=通道出口位于:
 chat.appliedenergistics2.InterfaceInOtherDim=接口位于 %d 世界，无法高亮显示
 chat.appliedenergistics2.InterfaceHighlighted=接口已高亮，坐标：%d, %d, %d
 chat.appliedenergistics2.CraftingItemsWentMissing=无法开始合成, 材料缺少: %d * %s
+chat.appliedenergistics2.FBOUnsupported=因为不支持 OpenGL 帧缓冲对象, 无法导出图片
 # Creative Tabs
 itemGroup.appliedenergistics2=应用能源2
 itemGroup.appliedenergistics2.facades=应用能源2-伪装板
@@ -172,6 +172,7 @@ gui.appliedenergistics2.Patterns=样板
 gui.appliedenergistics2.SpatialIOPort=空间IO端口
 gui.appliedenergistics2.StoredEnergy=已存储能源
 gui.appliedenergistics2.StoredItems=已存储物品
+gui.appliedenergistics2.StoredStacks=已存储堆叠
 gui.appliedenergistics2.Terminal=终端
 gui.appliedenergistics2.InterfaceTerminal=接口终端
 gui.appliedenergistics2.InterfaceTerminalHint=在接口终端显示或隐藏.
@@ -197,7 +198,8 @@ gui.appliedenergistics2.Crafts=合成
 gui.appliedenergistics2.And=与
 gui.appliedenergistics2.Creates=制作
 gui.appliedenergistics2.With=使用
-gui.appliedenergistics2.Substitute=启用替换:
+gui.appliedenergistics2.Substitute=使用矿典替代:
+gui.appliedenergistics2.BeSubstitute=作为矿典替代:
 gui.appliedenergistics2.Yes=是
 gui.appliedenergistics2.No=否
 gui.appliedenergistics2.InWorldCrafting=AE2在世界中的合成
@@ -214,13 +216,13 @@ gui.appliedenergistics2.MultipleOutputs=第一副产概率%1$d%%,第二副产概
 gui.appliedenergistics2.SelectAmount=选择数量
 gui.appliedenergistics2.CopyMode=复制模式
 gui.appliedenergistics2.CopyModeDesc=控制当取出存储元件时,是否清空配置格.
-gui.appliedenergistics2.PreCraftStart=预合成
 gui.appliedenergistics2.Next=下一页
 gui.appliedenergistics2.Lumen=光通
 gui.appliedenergistics2.Empty=空
 gui.appliedenergistics2.Stored=现存
 gui.appliedenergistics2.Cancel=取消
 gui.appliedenergistics2.ETAFormat=HH:mm:ss
+gui.appliedenergistics2.SwitchCraftingSimulationDisplayMode=切换列表/树状图显示
 gui.appliedenergistics2.Crafting=正在合成
 gui.appliedenergistics2.Scheduled=计划合成
 gui.appliedenergistics2.CraftingStatus=合成状态
@@ -231,6 +233,10 @@ gui.appliedenergistics2.CraftingPlan=合成计划
 gui.appliedenergistics2.Automatic=自动分配
 gui.appliedenergistics2.Start=开始
 gui.appliedenergistics2.Missing=缺失
+gui.appliedenergistics2.NoCraftingTreeReceived=暂无合成树状图
+gui.appliedenergistics2.CraftingStepLimitExceeded=超过合成步数上限
+gui.appliedenergistics2.RequestedItem=需要的物品
+gui.appliedenergistics2.SimulationIncomplete=合成模拟不完整
 gui.appliedenergistics2.Bytes=可存储
 gui.appliedenergistics2.Set=设置
 gui.appliedenergistics2.Simulation=合成模拟
@@ -260,9 +266,10 @@ gui.appliedenergistics2.LargeFontCraft=+
 gui.appliedenergistics2.Renamer=自定义名称: (回车保存设置)
 gui.appliedenergistics2.OreFilterLabel=矿典过滤卡
 gui.appliedenergistics2.HoldShiftForTooltip=按住Shift以查看拓展tooltip
-gui.appliedenergistics2.HoldShiftClick_HIGHLIGHT_INTERFACE=shift点击,高亮ME接口
-gui.appliedenergistics2.VoidCellTooltip=删除§任何§7存储在里面的物品
+gui.appliedenergistics2.HoldShiftClick_HIGHLIGHT_INTERFACE=shift点击来高亮ME接口
 gui.appliedenergistics2.Nothing=无
+gui.appliedenergistics2.VoidCellTooltip=删除§任何§7存储在里面的物品
+gui.appliedenergistics2.Deprecated=已过时,将很快被移除!
 
 # GUI Colors - ARGB
 gui.color.appliedenergistics2.SearchboxFocused=6E000000
@@ -278,10 +285,13 @@ gui.color.appliedenergistics2.InterfaceTerminalMatch=2A00FF00
 
 # GUI Tooltips
 gui.tooltips.appliedenergistics2.Stash=存储物品
-gui.tooltips.appliedenergistics2.StashDesc=将合成槽的物品返回网络
-gui.tooltips.appliedenergistics2.Substitutions=矿物词典替换
-gui.tooltips.appliedenergistics2.SubstitutionsDescEnabled=启用输入组件替换功能.
-gui.tooltips.appliedenergistics2.SubstitutionsDescDisabled=禁用输入组件替换功能.
+gui.tooltips.appliedenergistics2.StashDesc=将合成槽的物品返回网络.
+gui.tooltips.appliedenergistics2.Substitutions=使用矿典替代
+gui.tooltips.appliedenergistics2.SubstitutionsDescEnabled=该样板合成时可以使用矿典替代作为输入原料
+gui.tooltips.appliedenergistics2.SubstitutionsDescDisabled=该样板合成时不可使用矿典替代作为输入原料.
+gui.tooltips.appliedenergistics2.BeSubstitutions=作为矿典替代
+gui.tooltips.appliedenergistics2.BeSubstitutionsDescEnabled=该样板可以作为其他样板的矿典替代输入原料.
+gui.tooltips.appliedenergistics2.BeSubstitutionsDescDisabled=该样板不可作为其他样板的矿典替代输入原料.如果一个原料的所有样板均不可以作为矿典替代输入原料,合成模拟器将这些样板均视为可用作替代.
 
 gui.tooltips.appliedenergistics2.PatternSlotConfigTitle=切换终端模式
 gui.tooltips.appliedenergistics2.PatternSlotConfigInfo=在(16 -> 4)和(4 -> 16)之间切换样板模式
@@ -360,6 +370,7 @@ gui.tooltips.appliedenergistics2.TerminalStyle=终端风格
 gui.tooltips.appliedenergistics2.TerminalStyle_Full=全屏
 gui.tooltips.appliedenergistics2.TerminalStyle_Tall=长
 gui.tooltips.appliedenergistics2.TerminalStyle_Small=短
+gui.tooltips.appliedenergistics2.SaveAsImage=保存图片
 
 gui.tooltips.appliedenergistics2.DoesntDespawn=该物品不会消失.
 gui.tooltips.appliedenergistics2.EmitterMode=合成发信模式
@@ -369,6 +380,11 @@ gui.tooltips.appliedenergistics2.EmitWhenCrafting=在物品合成时发射红石
 gui.tooltips.appliedenergistics2.ReportInaccessibleItems=报告不可交互的物品
 gui.tooltips.appliedenergistics2.ReportInaccessibleItemsYes=是: 显示无法取出的物品.
 gui.tooltips.appliedenergistics2.ReportInaccessibleItemsNo=否: 只显示可以取出的物品.
+
+gui.tooltips.appliedenergistics2.TypeFilter=筛选类型
+gui.tooltips.appliedenergistics2.TypeFilterShowAll=所有
+gui.tooltips.appliedenergistics2.TypeFilterShowItemsOnly=仅物品
+gui.tooltips.appliedenergistics2.TypeFilterShowFluidsOnly=仅流体液滴
 
 gui.tooltips.appliedenergistics2.BlockPlacement=方块放置方式
 gui.tooltips.appliedenergistics2.BlockPlacementYes=方块将被放置.
@@ -389,8 +405,8 @@ gui.tooltips.appliedenergistics2.SearchStringTooltip=右键以清空搜索栏
 gui.tooltips.appliedenergistics2.SaveSearchString=保存搜索字符串
 gui.tooltips.appliedenergistics2.SaveSearchStringYes=是
 gui.tooltips.appliedenergistics2.SaveSearchStringNo=否
-gui.tooltips.appliedenergistics2.DoublePattern=双倍样板
-gui.tooltips.appliedenergistics2.DoublePatternHint=样板输入/输出物品堆叠同时x2
+gui.tooltips.appliedenergistics2.DoublePattern=数量翻倍
+gui.tooltips.appliedenergistics2.DoublePatternHint=样板输入/输出物品堆叠同时x2,按下shift则x8.
 gui.tooltips.appliedenergistics2.CraftingStatus=合成状态
 gui.tooltips.appliedenergistics2.CraftingStatusDesc=打开合成状态窗口
 gui.tooltips.appliedenergistics2.ToggleMolecularAssemblers=切换仅显示合成接口
@@ -413,6 +429,21 @@ gui.tooltips.appliedenergistics2.InsertionModePreferEmpty=优先向空槽输出
 gui.tooltips.appliedenergistics2.InsertionModePreferEmptyDesc=类似默认模式,但优先向空槽输出
 gui.tooltips.appliedenergistics2.InsertionModeOnlyEmpty=只向空槽输出
 gui.tooltips.appliedenergistics2.InsertionModeOnlyEmptyDesc=从前到后,不堆叠
+
+gui.tooltips.appliedenergistics2.SidelessModeSided=区分朝向模式
+gui.tooltips.appliedenergistics2.SidelessModeSidedDesc=每种流体只能从标记的面访问
+gui.tooltips.appliedenergistics2.SidelessModeSideless=忽视朝向模式
+gui.tooltips.appliedenergistics2.SidelessModeSidelessDesc=所有流体都可以从所有面访问
+
+gui.tooltips.appliedenergistics2.AdvancedBlockingModeDefault=默认阻挡模式
+gui.tooltips.appliedenergistics2.AdvancedBlockingModeDefaultDesc=当该接口内有物品(不含扩展卡)时,阻止接收所有物品
+gui.tooltips.appliedenergistics2.AdvancedBlockingModeAll=扩大阻挡模式
+gui.tooltips.appliedenergistics2.AdvancedBlockingModeAllDesc=当该接口所属的ME系统内有物品时,阻止接收所有物品.
+
+gui.tooltips.appliedenergistics2.CraftingModeStandard=标准合成模式
+gui.tooltips.appliedenergistics2.CraftingModeStandardDesc=只有当所有原料在ME系统内可用时才开始合成.
+gui.tooltips.appliedenergistics2.CraftingModeIgnoreMissing=忽略缺件合成模式
+gui.tooltips.appliedenergistics2.CraftingModeIgnoreMissingDesc=立即开始合成,不管是否所有原料都在ME系统内可用.
 
 # Units
 gui.appliedenergistics2.units.appliedenergstics=AE
@@ -465,6 +496,7 @@ item.appliedenergistics2.ItemAdvancedStorageCell.256k.name=256k-ME存储元件
 item.appliedenergistics2.ItemAdvancedStorageCell.1024k.name=1024k-ME存储元件
 item.appliedenergistics2.ItemAdvancedStorageCell.4096k.name=4096k-ME存储元件
 item.appliedenergistics2.ItemAdvancedStorageCell.16384k.name=16384k-ME存储元件
+item.appliedenergistics2.ItemExtremeStorageCell.Container.name=ME方块容器元件
 item.appliedenergistics2.ItemExtremeStorageCell.Quantum.name=ME量子存储元件
 item.appliedenergistics2.ItemExtremeStorageCell.Singularity.name=ME数字奇点存储元件
 item.appliedenergistics2.ItemVoidStorageCell.name=ME虚空存储元件
@@ -495,6 +527,8 @@ item.appliedenergistics2.ItemMaterial.CardRedstone.name=红石卡
 item.appliedenergistics2.ItemMaterial.CardSpeed.name=加速卡
 item.appliedenergistics2.ItemMaterial.CardSuperSpeed.name=超级加速卡
 item.appliedenergistics2.ItemMaterial.CardOreFilter.name=矿典过滤卡
+item.appliedenergistics2.ItemMaterial.CardPatternRefiller.name=空白样板重填卡
+item.appliedenergistics2.ItemMaterial.CardAdvancedBlocking.name=高级阻挡卡
 
 item.appliedenergistics2.ItemMaterial.Cell2SpatialPart.name=2³-空间组件
 item.appliedenergistics2.ItemMaterial.Cell16SpatialPart.name=16³-空间组件
